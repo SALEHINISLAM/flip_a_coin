@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Design by foolishdeveloper.com -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip A Coin</title>
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+  <style media="screen">
+    *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Rubik",sans-serif;
+}
+
+body{
+    height: 100%;
+
+
+    background-image: url("https://drive.google.com/uc?export=view&id=1tHXCkwPT-HJLORRHBXDXp9wKJj-weXGE");
+    position: center;
+}
+.container{
+    background-color: #009FBD;
+    width: 500px;
+    padding: 35px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    box-shadow: 15px 30px 35px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    -webkit-perspective: 300px;
+    perspective: 300px;
+}
+.stats{
+    display: flex;
+    color: #101020;
+    font-weight: 500;
+    padding: 20px;
+    margin-bottom: 40px;
+    margin-top: 55px;
+    box-shadow: 0 0 20px rgba(0,139,253,0.25);
+
+}
+.stats p:nth-last-child(1){
+  margin-left: 50%;
+}
+.coin{
+    height: 200px;
+    width: 200px;
+    position: relative;
+    margin: 50px auto;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+}
+.coin img{
+    width: 145px;
+}
+.Heads,.Tails{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+.Tails{
+    transform: rotateX(180deg);
+}
+@keyframes spin-Tails{
+    0%{
+        transform: rotateX(0);
+    }
+    100%{
+        transform: rotateX(1980deg);
+    }
+}
+@keyframes spin-Heads{
+    0%{
+        transform: rotateX(0);
+    }
+    100%{
+        transform: rotateX(2160deg);
+    }
+}
+.buttons{
+    display: flex;
+    justify-content: space-between;
+}
+button{
+    width: 150px;
+    padding: 15px 0;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#flip-button{
+    background-color: #145a31;
+    color: #ffffff;
+}
+#flip-button:disabled{
+    background-color: #e1e0ee;
+    border-color: #e1e0ee;
+    color: #101020;
+}
+#reset-button{
+    background-color: #674706;
+    color: white;
+}
+  </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="coin" id="coin">
+            <div class="Heads">
+                <img src="Head.png">
+            </div>
+            <div class="Tails">
+                <img src="Tail.png">
+            </div>
+        </div>
+         <div class="stats">
+             <p id="Heads-count">Heads: 0</p>
+             <p id="Tails-count">Tails: 0</p>
+         </div>
+        <div class="buttons">
+            <button id="flip-button">
+                Flip Coin
+            </button>
+            <button id="reset-button">
+                Reset
+            </button>
+        </div>
+    </div>
+    <!--Script-->
+  <script type="text/javascript">
+let Heads = 0;
+let Tails = 0;
+let coin = document.querySelector(".coin");
+let flipBtn = document.querySelector("#flip-button");
+let resetBtn = document.querySelector("#reset-button");
+
+flipBtn.addEventListener("click", () => {
+    let i = Math.floor(Math.random() * 2);
+    coin.style.animation = "none";
+    if(i){
+        setTimeout(function(){
+            coin.style.animation = "spin-Heads 3s forwards";
+        }, 100);
+        Heads++;
+    }
+    else{
+        setTimeout(function(){
+            coin.style.animation = "spin-Tails 3s forwards";
+        }, 100);
+        Tails++;
+    }
+    setTimeout(updateStats, 3000);
+    disableButton();
+});
+function updateStats(){
+    document.querySelector("#Heads-count").textContent = `Heads: ${Heads}`;
+    document.querySelector("#Tails-count").textContent = `Tails: ${Tails}`;
+}
+function disableButton(){
+    flipBtn.disabled = true;
+    setTimeout(function(){
+        flipBtn.disabled = false;
+    },3000);
+}
+resetBtn.addEventListener("click",() => {
+    coin.style.animation = "none";
+    Heads = 0;
+    Tails = 0;
+    updateStats();
+});
+  </script>
+</body>
+</html>
